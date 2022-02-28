@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(process.env.NODE_PORT, () => {
+app.listen(process.env.NODE_PORT || 3000, () => {
   console.log("listening at port", process.env.NODE_PORT);
 });
 
