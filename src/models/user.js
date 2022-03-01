@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,7 +13,6 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     address: String,
-    password: { type: String, ref: "passwords" },
   },
   { timestamps: true }
 );
