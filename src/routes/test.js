@@ -1,6 +1,6 @@
-const { useAppRoutes } = require("../server");
+const express = require("express");
 const { userCreateValidator } = require("../validators/user.validator");
-const app = useAppRoutes();
+const app = express.Router();
 
 app.get("/", (req, res) => {
   try {
@@ -11,3 +11,5 @@ app.get("/", (req, res) => {
   }
 });
 app.get("/test", (req, res) => res.send("SERVER TESTED SUCCESSFULLY"));
+
+module.exports = app;
