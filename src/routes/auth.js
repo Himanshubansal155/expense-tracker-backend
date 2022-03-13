@@ -10,5 +10,5 @@ const app = express.Router();
 
 app.post("/signup", createUser);
 app.post("/login", authenticate);
-app.post("/me", [userMiddleware], me);
+app.get("/me", [userMiddleware], me);
 module.exports = app;

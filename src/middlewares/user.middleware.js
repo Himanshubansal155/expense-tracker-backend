@@ -10,6 +10,6 @@ exports.userMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     res.statusCode = 401;
-    res.send(error);
+    res.send({ error, code: 9101 });
   }
 };
