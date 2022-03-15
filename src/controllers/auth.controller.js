@@ -1,5 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 const { createUser, showByEmail } = require("../services/user.service");
+const { ErrorCodes } = require("../utils/ErrorCodes");
 const {
   userCreateValidator,
   userLoginValidator,
@@ -10,7 +11,8 @@ exports.createUser = async (req, res) => {
     userCreateValidator(req.body);
   } catch (error) {
     res.statusCode = 422;
-    res.send(error);
+    res.send({ message: error.message, code: ErrorCodes.userCreateValidation });
+    return;
   }
   try {
     const newUser = await createUser(req.body);
@@ -26,7 +28,8 @@ exports.authenticate = async (req, res) => {
     await userLoginValidator(req.body);
   } catch (error) {
     res.statusCode = 422;
-    res.send(error);
+    res.send({ message: error.message, code: ErrorCodes.userLoginValidation });
+    return;
   }
   try {
     const user = await showByEmail(req.body);
