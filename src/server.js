@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const { readdirSync } = require("fs");
 const cors = require("cors");
 const morgan = require("morgan");
+const { dbConnection } = require("./config/db");
 dotenv.config();
 
 const app = express();
@@ -13,12 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
-
-const uri = process.env.DATABASE;
-mongoose
-  .connect(uri)
-  .then((res) => console.log("DB connected"))
-  .catch((err) => console.log("DB CONNECTION ERR", err));
+dbConnection();
 
 readdirSync("./src/routes").map((r) => app.use("/", require("./routes/" + r)));
 app.listen(process.env.PORT, () => {

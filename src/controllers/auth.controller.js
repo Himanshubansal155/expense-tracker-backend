@@ -15,8 +15,15 @@ exports.createUser = async (req, res) => {
     return;
   }
   try {
-    const newUser = await createUser(req.body);
-    res.json(newUser);
+    const user = await createUser(req.body);
+    const token = jsonwebtoken.sign(
+      {
+        data: user.id,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3,
+      },
+      process.env.SECRET_TOKEN
+    );
+    res.json({ user, token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
@@ -40,7 +47,7 @@ exports.authenticate = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.json({ user, token: token });
+    res.json({ user, token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);

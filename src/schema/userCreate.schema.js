@@ -1,7 +1,7 @@
 exports.userCreateSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["name", "email", "password"],
+  required: ["name", "email", "phone", "password"],
   properties: {
     name: {
       type: "string",
@@ -13,7 +13,7 @@ exports.userCreateSchema = {
     password: {
       type: "string",
     },
-    address: {
+    phone: {
       type: "string",
     },
   },
