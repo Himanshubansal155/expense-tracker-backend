@@ -28,12 +28,12 @@ exports.showByEmail = async (data) => {
 };
 
 exports.createUser = async (data) => {
-  const { name, email, address, password } = data;
+  const { name, email, phone, password } = data;
   try {
     const newUser = await new user({
       email,
       name,
-      address,
+      phone,
     }).save();
     const hashedPassword = await bcrypt.hash(password, 10);
     await new Passwords({
