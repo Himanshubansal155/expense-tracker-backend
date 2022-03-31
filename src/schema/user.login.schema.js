@@ -12,3 +12,14 @@ exports.userLoginSchema = {
     },
   },
 };
+
+exports.userLoginMobileSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["phone"],
+  properties: {
+    phone: {
+      type: "string",
+    },
+  },
+};

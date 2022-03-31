@@ -27,6 +27,15 @@ exports.showByEmail = async (data) => {
   }
 };
 
+exports.showByMobile = async (data) => {
+  const { phone } = data;
+  const userData = await user.findOne({ phone }).exec();
+  if (!userData) {
+    throw { message: "Phone Number Not Found", code: ErrorCodes.userNotFound };
+  }
+  return userData;
+};
+
 exports.createUser = async (data) => {
   const { name, email, phone, password } = data;
   try {

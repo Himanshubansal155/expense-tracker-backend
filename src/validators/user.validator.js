@@ -1,4 +1,7 @@
-const { userLoginSchema } = require("../schema/user.login.schema");
+const {
+  userLoginSchema,
+  userLoginMobileSchema,
+} = require("../schema/user.login.schema");
 const { userCreateSchema } = require("../schema/userCreate.schema");
 const { baseValidator } = require("./base.validator");
 
@@ -12,5 +15,10 @@ exports.userCreateValidator = (data) => {
 
 exports.userLoginValidator = (data) => {
   const result = validate.validate(data, userLoginSchema);
+  return baseValidator(result);
+};
+
+exports.userLoginMobileValidator = (data) => {
+  const result = validate.validate(data, userLoginMobileSchema);
   return baseValidator(result);
 };
