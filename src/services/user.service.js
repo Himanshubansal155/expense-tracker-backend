@@ -1,4 +1,3 @@
-const Passwords = require("../models/Passwords");
 const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const { ErrorCodes } = require("../utils/ErrorCodes");
@@ -9,13 +8,7 @@ exports.showByEmail = async (data) => {
   if (!userData) {
     throw { message: "Email Not Found", code: ErrorCodes.userNotFound };
   }
-  const passwordData = await Passwords.findOne({
-    userId: userData.id,
-  }).exec();
-  if (!passwordData) {
-    throw { message: "User Not Found", code: ErrorCodes.userNotFound };
-  }
-  const checkef = await bcrypt.compare(password, passwordData.password);
+  const checkef = await bcrypt.compare(password, userData.password);
   if (!checkef) {
     throw {
       message: "Password Not Correct",
@@ -39,14 +32,11 @@ exports.showByMobile = async (data) => {
 exports.createUser = async (data) => {
   const { name, email, phone, password } = data;
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await new user({
       email,
       name,
       phone,
-    }).save();
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await new Passwords({
-      userId: newUser.id,
       password: hashedPassword,
     }).save();
     return newUser;

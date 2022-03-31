@@ -1,5 +1,10 @@
 const jsonwebtoken = require("jsonwebtoken");
-const { createUser, showByEmail, showByMobile } = require("../services/user.service");
+const {
+  createUser,
+  showByEmail,
+  showByMobile,
+} = require("../services/user.service");
+const userTransformer = require("../transformers/user.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 const {
   userCreateValidator,
@@ -24,7 +29,7 @@ exports.createUser = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.json({ user, token });
+    res.json({ user: await new userTransformer().transform(user), token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
@@ -48,7 +53,7 @@ exports.authenticate = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.json({ user, token });
+    res.json({ user: await new userTransformer().transform(user), token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
@@ -72,7 +77,7 @@ exports.authenticateMobile = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.json({ user, token });
+    res.json({ user: await new userTransformer().transform(user), token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
@@ -81,6 +86,6 @@ exports.authenticateMobile = async (req, res) => {
 
 exports.me = async (req, res) => {
   if (req.user) {
-    res.send(req.user);
+    res.send(await new userTransformer().transform(req.user));
   }
 };
