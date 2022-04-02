@@ -34,6 +34,38 @@ exports.showCategories = async (filters, user) => {
     ).exec();
     return categories;
   } catch (error) {
-    return error;
+    throw error;
+  }
+};
+
+exports.deleteCategory = async (userId, id) => {
+  try {
+    const category = await Category.findOneAndDelete({ id, userId }).exec();
+    return category;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.showCategoryById = async (id) => {
+  try {
+    const category = await Category.findById(id).exec();
+    return category;
+  } catch (error) {
+    throw error;
+  }
+};
+exports.updateCategory = async (data) => {
+  try {
+    const category = await Category.findByIdAndUpdate(
+      data.id,
+      {
+        title: data.title,
+      },
+      { new: true }
+    ).exec();
+    return category;
+  } catch (error) {
+    throw error;
   }
 };
