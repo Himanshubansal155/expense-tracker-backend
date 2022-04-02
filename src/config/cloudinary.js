@@ -11,7 +11,6 @@ exports.upload = async (req, res) => {
     let result = await cloudinary.uploader.upload(req.body.image, {
       public_id: `${Date.now()}`,
     });
-    console.log(result);
     return result;
   } catch (error) {
     console.log(error);
@@ -19,7 +18,7 @@ exports.upload = async (req, res) => {
   }
 };
 
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
   let image_id = req.body.public_id;
 
   cloudinary.uploader.destroy(image_id, (err, result) => {
