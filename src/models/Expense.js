@@ -11,8 +11,12 @@ const expenseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
+    description: {
       type: String,
+      required: false,
+    },
+    categoryId: {
+      type: ObjectId,
       required: true,
       ref: "categories",
     },
@@ -20,18 +24,20 @@ const expenseSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    subCategory: {
-      type: String,
+    subCategoryId: {
+      type: ObjectId,
       required: false,
+      ref: "subcategories",
     },
     date: {
       type: Date,
       required: true,
     },
     meta: {
+      file_id: String,
       file_url: String,
-      file_name: String,
       file_type: String,
+      type: String,
     },
   },
   { timestamps: true }

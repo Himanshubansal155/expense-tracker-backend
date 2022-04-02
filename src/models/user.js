@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
@@ -21,6 +22,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    categoryIds: [
+      {
+        type: ObjectId,
+        required: false,
+        ref: "categories",
+      },
+    ],
   },
   { timestamps: true }
 );
