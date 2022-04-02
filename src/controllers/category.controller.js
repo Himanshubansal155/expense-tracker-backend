@@ -3,8 +3,12 @@ const {
   showCategories,
   deleteCategory,
   updateCategory,
+  addSubCategory,
 } = require("../services/categories.services");
-const { addUserCategory } = require("../services/user.service");
+const {
+  addUserCategory,
+  removeUserCategory,
+} = require("../services/user.service");
 const categoryTransformer = require("../transformers/category.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 const { categoryCreateValidator } = require("../validators/category.validator");
@@ -43,6 +47,7 @@ exports.showCategories = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await deleteCategory(req.user, req.body.id);
+    await removeUserCategory(req.user, req.body.id);
     res.send(await new categoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);
@@ -53,6 +58,15 @@ exports.updateCategory = async (req, res) => {
   try {
     const category = await updateCategory(req.body);
     res.send(await new categoryTransformer().transform(category));
+  } catch (error) {
+    res.status(422).send(error);
+  }
+};
+
+exports.addSubCategory = async (req, res) => {
+  try {
+    const category = await addSubCategory(req.body);
+    res.send(category);
   } catch (error) {
     res.status(422).send(error);
   }

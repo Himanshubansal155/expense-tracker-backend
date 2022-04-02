@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const SubCategory = require("../models/SubCategory");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 
 exports.createCategory = async (data, user) => {
@@ -38,9 +39,12 @@ exports.showCategories = async (filters, user) => {
   }
 };
 
-exports.deleteCategory = async (userId, id) => {
+exports.deleteCategory = async (user, id) => {
   try {
-    const category = await Category.findOneAndDelete({ id, userId }).exec();
+    const category = await Category.findOneAndDelete({
+      id,
+      userId: user.id,
+    }).exec();
     return category;
   } catch (error) {
     throw error;
@@ -67,5 +71,18 @@ exports.updateCategory = async (data) => {
     return category;
   } catch (error) {
     throw error;
+  }
+};
+
+exports.addSubCategory = async (data) => {
+  const { title, id } = data;
+  try {
+    const category = await new SubCategory({
+      title,
+      categoryId: id,
+    }).save();
+    return category;
+  } catch (error) {
+    throw { message: error.message, code: ErrorCodes.categoryDataNotValid };
   }
 };

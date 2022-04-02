@@ -65,3 +65,18 @@ exports.addUserCategory = async (userData, categoryId) => {
     throw { error, code: ErrorCodes.categoryUserNotValidOrFound };
   }
 };
+
+exports.removeUserCategory = async (userData, categoryId) => {
+  const categoriesIds = userData.categoryIds.filter(
+    (category) => category != categoryId
+  );
+  try {
+    await user
+      .findByIdAndUpdate(userData.id, {
+        categoryIds: categoriesIds,
+      })
+      .exec();
+  } catch (error) {
+    throw { error, code: ErrorCodes.categoryUserNotValidOrFound };
+  }
+};
