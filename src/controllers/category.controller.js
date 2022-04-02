@@ -1,4 +1,8 @@
-const { createCategory } = require("../services/categories.services");
+const {
+  createCategory,
+  showCategories,
+} = require("../services/categories.services");
+const { addUserCategory } = require("../services/user.service");
 const categoryTransformer = require("../transformers/category.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 const { categoryCreateValidator } = require("../validators/category.validator");
@@ -16,9 +20,21 @@ exports.addCategory = async (req, res) => {
   }
   try {
     const category = await createCategory(req.body, req.user);
+    await addUserCategory(req.user, category.id);
     res.send(await new categoryTransformer().transform(category));
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
+  }
+};
+
+exports.showCategories = async (req, res) => {
+  try {
+    const filters = req.query;
+    console.log(filters);
+    const data = await showCategories(filters, req.user);
+    res.send(data);
+  } catch (error) {
+    res.status(422).send(error);
   }
 };

@@ -53,3 +53,15 @@ exports.showById = async (id) => {
     throw { error, code: ErrorCodes.userNotFound };
   }
 };
+
+exports.addUserCategory = async (userData, categoryId) => {
+  try {
+    await user
+      .findByIdAndUpdate(userData.id, {
+        categoryIds: [categoryId, ...userData.categoryIds],
+      })
+      .exec();
+  } catch (error) {
+    throw { error, code: ErrorCodes.categoryUserNotValidOrFound };
+  }
+};

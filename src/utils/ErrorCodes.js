@@ -14,6 +14,7 @@ exports.ErrorCodes = {
   //categories
   categoryDataNotValid: 301,
   categoryCreateValidation: 302,
+  categoryUserNotValidOrFound: 303,
 
   //JWT
   jwtTokenExpire: 9101,
