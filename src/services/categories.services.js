@@ -1,6 +1,10 @@
 const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
 const { ErrorCodes } = require("../utils/ErrorCodes");
+const {
+  deleteExpenseByCategory,
+  removeSubCategory,
+} = require("./expense.service");
 
 exports.createCategory = async (data, user) => {
   const { title } = data;
@@ -39,12 +43,15 @@ exports.showCategories = async (filters, user) => {
   }
 };
 
-exports.deleteCategory = async (user, id) => {
+exports.deleteCategory = async (user, id, includeExpenses) => {
   try {
     const category = await Category.findOneAndDelete({
       id,
       userId: user.id,
     }).exec();
+    if (includeExpenses) {
+      await deleteExpenseByCategory(id);
+    }
     return category;
   } catch (error) {
     throw error;
@@ -115,10 +122,11 @@ exports.showSubCategories = async (filters, categoryId) => {
 
 exports.deleteSubCategory = async (id) => {
   try {
-    const category = await SubCategory.findOneAndDelete({
-      id,
-    }).exec();
+    const category = await SubCategory.findByIdAndDelete(id).exec();
+    await removeSubCategory(id);
     return category;
+
+    return {};
   } catch (error) {
     throw error;
   }

@@ -49,7 +49,11 @@ exports.showCategories = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
   try {
     const id = req.params?.id;
-    const category = await deleteCategory(req.user, id);
+    const category = await deleteCategory(
+      req.user,
+      id,
+      req.body.includeExpenses
+    );
     res.send(await new categoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);

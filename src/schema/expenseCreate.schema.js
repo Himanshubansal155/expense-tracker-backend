@@ -12,7 +12,7 @@ exports.expenseCreateSchema = {
     categoryId: {
       type: "string",
     },
-    subcategoryId: {
+    subCategoryId: {
       type: "string",
     },
     amount: {

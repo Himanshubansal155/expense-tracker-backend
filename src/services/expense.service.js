@@ -3,8 +3,6 @@ const user = require("../models/user");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 
 exports.createExpense = async (data, user) => {
-  // const { title, categoryId, subCategoryId, amount, meta, date, description } =
-  //   data;
   try {
     const expense = await new Expense({
       userId: user.id,
@@ -83,6 +81,27 @@ exports.showAllExpenses = async (filters, user) => {
         skip: filters?.offset ? filters?.offset : 0,
         sort: sortingClause,
       }
+    ).exec();
+    return expenses;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.deleteExpenseByCategory = async (categoryId) => {
+  try {
+    const expenses = await Expense.deleteMany({ categoryId }).exec();
+    return expenses;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.removeSubCategory = async (subCategoryId) => {
+  try {
+    const expenses = await Expense.updateMany(
+      { subCategoryId },
+      { subCategoryId: null }
     ).exec();
     return expenses;
   } catch (error) {
