@@ -1,12 +1,12 @@
 const TransformerAbstract = require("./base.transformer");
 
 class subCategoryTransformer extends TransformerAbstract {
-  _map(category) {
+  _map(subcategory) {
     return {
-      id: category.id,
-      title: category.title,
-      createdAt: category.createdAt,
-      updatedAt: category.updatedAt,
+      id: subcategory.id,
+      title: subcategory.title,
+      createdAt: subcategory.createdAt,
+      updatedAt: subcategory.updatedAt,
     };
   }
 }

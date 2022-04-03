@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const SubCategory = require("../models/SubCategory");
 const TransformerAbstract = require("./base.transformer");
 
 class expenseTransformer extends TransformerAbstract {
@@ -7,6 +8,12 @@ class expenseTransformer extends TransformerAbstract {
   async includeCategory(expense) {
     const category = await Category.findById(expense.categoryId).exec();
     return category;
+  }
+  async includeSubCategory(expense) {
+    const subCategory = await SubCategory.findById(
+      expense.subCategoryId
+    ).exec();
+    return subCategory;
   }
 
   _map(expense) {

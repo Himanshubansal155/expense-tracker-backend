@@ -29,7 +29,7 @@ exports.showCategories = async (filters, user) => {
       null,
       {
         limit: filters?.limit ? filters?.limit : 20,
-        skip: filters?.limit ? filters?.limit : 0,
+        skip: filters?.offset ? filters?.offset : 0,
         sort: sortingClause,
       }
     ).exec();
@@ -89,7 +89,7 @@ exports.addSubCategory = async (data, user) => {
   }
 };
 
-exports.showSubCategories = async (filters, user) => {
+exports.showSubCategories = async (filters, categoryId) => {
   const sortingClause = {
     [filters.sortCreatedAt && "createdAt"]: filters?.sortCreatedAt,
     [filters?.sortTitle && "title"]: filters?.sortTitle,
@@ -98,7 +98,7 @@ exports.showSubCategories = async (filters, user) => {
     const categories = await SubCategory.find(
       {
         title: new RegExp(filters?.title || ""),
-        userId: user.id,
+        categoryId,
       },
       null,
       {

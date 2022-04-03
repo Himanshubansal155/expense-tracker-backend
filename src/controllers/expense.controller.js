@@ -2,6 +2,8 @@ const {
   createExpense,
   updateExpense,
   showExpense,
+  deleteExpense,
+  showAllExpenses,
 } = require("../services/expense.service");
 const expenseTransformer = require("../transformers/expense.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
@@ -31,7 +33,7 @@ exports.showExpense = async (req, res) => {
   try {
     const id = req.params?.id;
     const data = await showExpense(id);
-    res.send(await new expenseTransformer().transform(data));
+    res.send(await new expenseTransformer().transform(data, ["subCategory"]));
   } catch (error) {
     res.status(422).send(error);
   }
@@ -58,4 +60,24 @@ exports.updateExpense = async (req, res) => {
   }
 };
 
-exports.deleteExpense = async (req, res) => {};
+exports.deleteExpense = async (req, res) => {
+  try {
+    const id = req.params?.id;
+    const expense = await deleteExpense(id);
+    res.send(await new expenseTransformer().transform(expense));
+  } catch (error) {
+    res.status(422).send(error);
+  }
+};
+
+exports.showAllExpense = async (req, res) => {
+  try {
+    const filters = req.query;
+    const expenses = await showAllExpenses(filters, req.user);
+    res.send(
+      await new expenseTransformer().transformList(expenses, ["subCategory", "category"])
+    );
+  } catch (error) {
+    res.status(422).send(error);
+  }
+};

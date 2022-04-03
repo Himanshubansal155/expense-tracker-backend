@@ -81,7 +81,10 @@ exports.addSubCategory = async (req, res) => {
   }
   try {
     const category = await addSubCategory(req.body, req.user);
-    res.status(201).send(new subCategoryTransformer().transform(category));
+    console.log(category);
+    res
+      .status(201)
+      .send(await new subCategoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);
   }
@@ -89,8 +92,9 @@ exports.addSubCategory = async (req, res) => {
 
 exports.showSubCategories = async (req, res) => {
   try {
+    const categoryId = req.params?.categoryId;
     const filters = req.query;
-    const data = await showSubCategories(filters, req.user);
+    const data = await showSubCategories(filters, categoryId);
     res.send(await new subCategoryTransformer().transformList(data));
   } catch (error) {
     res.status(422).send(error);

@@ -20,7 +20,7 @@ app.delete("/category/:id", [userMiddleware], deleteCategory);
 //sub-categories
 app.post("/subcategory", [userMiddleware], addSubCategory);
 app.put("/subcategory/:id", [userMiddleware], updateSubCategory);
-app.get("/show-subcategories", [userMiddleware], showSubCategories);
+app.get("/show-subcategories/:categoryId", [userMiddleware], showSubCategories);
 app.delete("/subcategory/:id", [userMiddleware], deleteSubCategory);
 
 module.exports = app;
