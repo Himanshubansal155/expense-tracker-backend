@@ -29,7 +29,7 @@ exports.createUser = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.json({ user: await new userTransformer().transform(user), token });
+    res.status(201).json({ user: await new userTransformer().transform(user), token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);

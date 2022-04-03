@@ -1,6 +1,6 @@
 const TransformerAbstract = require("./base.transformer");
 
-class categoryTransformer extends TransformerAbstract {
+class subCategoryTransformer extends TransformerAbstract {
   _map(category) {
     return {
       id: category.id,
@@ -11,4 +11,4 @@ class categoryTransformer extends TransformerAbstract {
   }
 }
 
-module.exports = categoryTransformer;
+module.exports = subCategoryTransformer;

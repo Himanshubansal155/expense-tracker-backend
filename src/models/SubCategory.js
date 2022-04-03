@@ -12,6 +12,11 @@ const subCategorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: ObjectId,
+      required: true,
+      ref: "users",
+    },
   },
   { timestamps: true }
 );

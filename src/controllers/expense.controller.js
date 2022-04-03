@@ -16,7 +16,7 @@ exports.addExpense = async (req, res) => {
   }
   try {
     const expense = await createExpense(req.body, req.body);
-    res.json(await new expenseTransformer().transform(expense));
+    res.status(201).json(await new expenseTransformer().transform(expense));
   } catch (error) {
     res.statusCode = 404;
     res.send(error);

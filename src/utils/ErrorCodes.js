@@ -16,6 +16,11 @@ exports.ErrorCodes = {
   categoryCreateValidation: 302,
   categoryUserNotValidOrFound: 303,
 
+  //sub-categories
+  subCategoryDataNotValid: 401,
+  subCategoryCreateValidation: 402,
+  subCategoryUserNotValidOrFound: 403,
+
   //JWT
   jwtTokenExpire: 9101,
 };

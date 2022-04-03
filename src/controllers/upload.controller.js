@@ -7,7 +7,7 @@ exports.upload = async (req, res) => {
       const data = await upload(req, res);
       res.send(await new uploadTransformer().transform(data));
     } else {
-      res.status(402).send("Plz send valid image");
+      res.status(201).status(402).send("Plz send valid image");
     }
   } catch (error) {
     res.status(411).send(error);
