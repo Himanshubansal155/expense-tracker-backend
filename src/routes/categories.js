@@ -13,13 +13,14 @@ const { userMiddleware } = require("../middlewares/user.middleware");
 const app = express.Router();
 
 app.post("/category", [userMiddleware], addCategory);
-app.put("/category", [userMiddleware], updateCategory);
+app.put("/category/:id", [userMiddleware], updateCategory);
 app.get("/show-categories", [userMiddleware], showCategories);
-app.delete("/category", [userMiddleware], deleteCategory);
+app.delete("/category/:id", [userMiddleware], deleteCategory);
+
 //sub-categories
 app.post("/subcategory", [userMiddleware], addSubCategory);
-app.put("/subcategory", [userMiddleware], updateSubCategory);
+app.put("/subcategory/:id", [userMiddleware], updateSubCategory);
 app.get("/show-subcategories", [userMiddleware], showSubCategories);
-app.delete("/subcategory", [userMiddleware], deleteSubCategory);
+app.delete("/subcategory/:id", [userMiddleware], deleteSubCategory);
 
 module.exports = app;

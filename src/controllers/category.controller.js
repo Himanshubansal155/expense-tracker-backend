@@ -48,7 +48,8 @@ exports.showCategories = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
   try {
-    const category = await deleteCategory(req.user, req.body.id);
+    const id = req.params?.id;
+    const category = await deleteCategory(req.user, id);
     res.send(await new categoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);
@@ -57,7 +58,8 @@ exports.deleteCategory = async (req, res) => {
 
 exports.updateCategory = async (req, res) => {
   try {
-    const category = await updateCategory(req.body);
+    const id = req.params?.id;
+    const category = await updateCategory(req.body, id);
     res.send(await new categoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);
@@ -97,7 +99,8 @@ exports.showSubCategories = async (req, res) => {
 
 exports.deleteSubCategory = async (req, res) => {
   try {
-    const category = await deleteSubCategory(req.body.id);
+    const id = req.params?.id;
+    const category = await deleteSubCategory(id);
     res.send(await new subCategoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);
@@ -106,7 +109,8 @@ exports.deleteSubCategory = async (req, res) => {
 
 exports.updateSubCategory = async (req, res) => {
   try {
-    const category = await updateSubCategory(req.body);
+    const id = req.params?.id;
+    const category = await updateSubCategory(req.body, id);
     res.send(await new subCategoryTransformer().transform(category));
   } catch (error) {
     res.status(422).send(error);

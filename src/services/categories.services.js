@@ -60,10 +60,10 @@ exports.showCategoryById = async (id) => {
   }
 };
 
-exports.updateCategory = async (data) => {
+exports.updateCategory = async (data, id) => {
   try {
     const category = await Category.findByIdAndUpdate(
-      data.id,
+      id,
       {
         title: data.title,
       },
@@ -133,10 +133,10 @@ exports.showSubCategoryById = async (id) => {
   }
 };
 
-exports.updateSubCategory = async (data) => {
+exports.updateSubCategory = async (data, id) => {
   try {
     const category = await SubCategory.findByIdAndUpdate(
-      data.id,
+      id,
       {
         title: data.title,
       },
