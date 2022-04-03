@@ -12,13 +12,6 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    subCategoryIds: [
-      {
-        type: ObjectId,
-        required: false,
-        ref: "subcategories",
-      },
-    ],
   },
   { timestamps: true }
 );

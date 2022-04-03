@@ -22,13 +22,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    categoryIds: [
-      {
-        type: ObjectId,
-        required: false,
-        ref: "categories",
-      },
-    ],
   },
   { timestamps: true }
 );
