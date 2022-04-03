@@ -10,6 +10,7 @@ exports.ErrorCodes = {
   //expenses
   expenseDataNotValid: 201,
   expenseCreateValidation: 202,
+  expenseNotFound: 203,
 
   //categories
   categoryDataNotValid: 301,

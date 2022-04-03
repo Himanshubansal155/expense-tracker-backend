@@ -8,9 +8,9 @@ const {
 const { userMiddleware } = require("../middlewares/user.middleware");
 const app = express.Router();
 
-app.get("/expense", showExpense);
+app.get("/expense/:id", [userMiddleware], showExpense);
 app.post("/expense", [userMiddleware], addExpense);
-app.put("/expense", updateExpense);
-app.delete("/expense", deleteExpense);
+app.put("/expense/:id", [userMiddleware], updateExpense);
+app.delete("/expense/:id", [userMiddleware], deleteExpense);
 
 module.exports = app;

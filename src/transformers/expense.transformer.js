@@ -5,7 +5,7 @@ class expenseTransformer extends TransformerAbstract {
   defaultIncludes = ["category"];
 
   async includeCategory(expense) {
-    const category = await Category.findOne({ id: expense.categoryId }).exec();
+    const category = await Category.findById(expense.categoryId).exec();
     return category;
   }
 
