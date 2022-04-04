@@ -12,6 +12,10 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    totalAmount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
