@@ -112,6 +112,15 @@ exports.showAllExpenses = async (filters, user) => {
   if (filters.date) {
     whereClause = { ...whereClause, date: filters.date };
   }
+  if (filters.startDate && filters.endDate) {
+    whereClause = {
+      ...whereClause,
+      date: {
+        $gte: filters.startDate,
+        $lte: filters.endDate,
+      },
+    };
+  }
   try {
     const expenses = await Expense.find(
       {

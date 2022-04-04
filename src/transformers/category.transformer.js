@@ -6,6 +6,7 @@ class categoryTransformer extends TransformerAbstract {
       id: category.id,
       title: category.title,
       createdAt: category.createdAt,
+      totalAmount: category.totalAmount,
       updatedAt: category.updatedAt,
     };
   }

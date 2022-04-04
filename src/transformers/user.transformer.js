@@ -7,6 +7,7 @@ class userTransformer extends TransformerAbstract {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      totalExpense: user.totalExpense,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

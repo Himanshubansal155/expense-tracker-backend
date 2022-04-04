@@ -1,19 +1,27 @@
 const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
 const TransformerAbstract = require("./base.transformer");
+const categoryTransformer = require("./category.transformer");
+const subCategoryTransformer = require("./subcategory.tranformer");
 
 class expenseTransformer extends TransformerAbstract {
   defaultIncludes = ["category"];
 
   async includeCategory(expense) {
     const category = await Category.findById(expense.categoryId).exec();
-    return category;
+    if (!category) {
+      return null;
+    }
+    return await new categoryTransformer().transform(category);
   }
   async includeSubCategory(expense) {
     const subCategory = await SubCategory.findById(
       expense.subCategoryId
     ).exec();
-    return subCategory;
+    if (!subCategory) {
+      return null;
+    }
+    return await new subCategoryTransformer().transform(subCategory);
   }
 
   _map(expense) {
