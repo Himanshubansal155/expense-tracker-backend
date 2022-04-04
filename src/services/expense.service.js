@@ -114,6 +114,14 @@ exports.showAllExpenses = async (filters, user) => {
     };
   }
   try {
+    const budget = await Budget.findByIdAndUpdate(
+      "624aaf2bee9647dd0d9b801e",
+      {
+        // $push: { monthlyBudget: { $each: [20000], $position: 3 } },
+        // $inc: { "monthlyExpenses.2": -20000 },
+      },
+      { new: true }
+    );
     const expenses = await Expense.find(
       {
         amount: {

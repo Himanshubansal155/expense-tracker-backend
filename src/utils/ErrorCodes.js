@@ -22,6 +22,9 @@ exports.ErrorCodes = {
   subCategoryCreateValidation: 402,
   subCategoryUserNotValidOrFound: 403,
 
+  //budget
+  budgetMonthValidation: 501,
+
   //JWT
   jwtTokenExpire: 9101,
 };
