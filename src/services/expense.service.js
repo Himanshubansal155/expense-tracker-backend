@@ -69,11 +69,29 @@ exports.showAllExpenses = async (filters, user) => {
     [filters?.sortTitle && "title"]: filters?.sortTitle,
     [filters?.sortAmount && "amount"]: filters?.sortAmount,
   };
+  let whereClause = {
+    userId: user.id,
+  };
+  if (filters.title) {
+    whereClause = { ...whereClause, title: new RegExp(filters?.title) };
+  }
+  if (filters.categoryId) {
+    whereClause = { ...whereClause, categoryId: filters.categoryId };
+  }
+  if (filters.subCategoryId) {
+    whereClause = { ...whereClause, subCategoryId: filters.subCategoryId };
+  }
+  if (filters.date) {
+    whereClause = { ...whereClause, date: filters.date };
+  }
   try {
     const expenses = await Expense.find(
       {
-        userId: user.id,
-        title: new RegExp(filters?.title || ""),
+        amount: {
+          $gte: filters.greaterAmount || 0,
+          $lte: filters.lesserAmount || Infinity,
+        },
+        ...whereClause,
       },
       null,
       {
