@@ -22,10 +22,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    totalExpense: {
-      type: Number,
-      default: 0,
-    },
   },
   { timestamps: true }
 );

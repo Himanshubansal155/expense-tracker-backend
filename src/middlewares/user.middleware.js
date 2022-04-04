@@ -10,6 +10,7 @@ exports.userMiddleware = async (req, res, next) => {
   } catch (error) {
     res.statusCode = 401;
     res.send({ message: error.message, code: ErrorCodes.jwtTokenExpire });
+    return;
   }
   try {
     const user = await showById(token.data);

@@ -1,7 +1,19 @@
+const Budget = require("../models/Budget");
 const Category = require("../models/Category");
 const Expense = require("../models/Expense");
 const user = require("../models/user");
 const { ErrorCodes } = require("../utils/ErrorCodes");
+
+const addTotalAmountInCategoryById = async (categoryId, amount) => {
+  try {
+    const category = await Category.findByIdAndUpdate(categoryId, {
+      $inc: { totalAmount: amount },
+    }).exec();
+    return category;
+  } catch (error) {
+    throw error;
+  }
+};
 
 exports.createExpense = async (data, user) => {
   try {
@@ -9,14 +21,7 @@ exports.createExpense = async (data, user) => {
       userId: user.id,
       ...data,
     }).save();
-    await Category.findByIdAndUpdate(expense.categoryId, {
-      $inc: { totalAmount: expense.amount },
-    }).exec();
-    await user
-      .findByIdAndUpdate(expense.userId, {
-        $inc: { totalExpense: expense.amount },
-      })
-      .exec();
+    await addTotalAmountInCategoryById(expense.categoryId, expense.amount);
     return expense;
   } catch (error) {
     throw { message: error.message, code: ErrorCodes.expenseDataNotValid };
@@ -29,15 +34,10 @@ exports.updateExpense = async (data, id) => {
     const expense = await Expense.findByIdAndUpdate(id, data, {
       new: true,
     }).exec();
-    await Category.findByIdAndUpdate(expense.categoryId, {
-      $inc: { totalAmount: expense.amount - oldExpense.amount },
-    }).exec();
-
-    await user
-      .findByIdAndUpdate(expense.userId, {
-        $inc: { totalExpense: expense.amount - oldExpense.amount },
-      })
-      .exec();
+    await addTotalAmountInCategoryById(
+      expense.categoryId,
+      expense.amount - oldExpense.amount
+    );
     if (!expense) {
       throw {
         message: "Expense Not Found",
@@ -76,15 +76,7 @@ exports.deleteExpense = async (id) => {
         code: ErrorCodes.expenseNotFound,
       };
     }
-    await Category.findByIdAndUpdate(expense.categoryId, {
-      $inc: { totalAmount: -expense.amount },
-    }).exec();
-
-    await user
-      .findByIdAndUpdate(expense.userId, {
-        $inc: { totalExpense: -expense.amount },
-      })
-      .exec();
+    await addTotalAmountInCategoryById(expense.categoryId, -expense.amount);
     return expense;
   } catch (error) {
     throw error;
@@ -117,7 +109,7 @@ exports.showAllExpenses = async (filters, user) => {
       ...whereClause,
       date: {
         $gte: filters.startDate,
-        $lte: filters.endDate,
+        $lt: filters.endDate,
       },
     };
   }
