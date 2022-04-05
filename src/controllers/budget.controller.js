@@ -29,7 +29,6 @@ exports.showBudget = async (req, res) => {
   try {
     const year = req.params.year;
     const getBudget = await getBudgetByYear(req.user.id, year);
-    console.log(getBudget);
     if (getBudget.length === 0) {
       const budget = await createBudgetTable(req.user.id, year);
       res.status(201).send(budget);

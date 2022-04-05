@@ -1,8 +1,8 @@
 const Budget = require("../models/Budget");
 const Category = require("../models/Category");
 const Expense = require("../models/Expense");
-const user = require("../models/user");
 const { ErrorCodes } = require("../utils/ErrorCodes");
+const { addMonthExpenses } = require("./budget.service");
 
 const addTotalAmountInCategoryById = async (categoryId, amount) => {
   try {
@@ -22,6 +22,13 @@ exports.createExpense = async (data, user) => {
       ...data,
     }).save();
     await addTotalAmountInCategoryById(expense.categoryId, expense.amount);
+    const date = new Date(expense.date);
+    await addMonthExpenses(
+      user.id,
+      date.getMonth(),
+      date.getFullYear(),
+      expense.amount
+    );
     return expense;
   } catch (error) {
     throw { message: error.message, code: ErrorCodes.expenseDataNotValid };
@@ -36,6 +43,13 @@ exports.updateExpense = async (data, id) => {
     }).exec();
     await addTotalAmountInCategoryById(
       expense.categoryId,
+      expense.amount - oldExpense.amount
+    );
+    const date = new Date(expense.date);
+    await addMonthExpenses(
+      user.id,
+      date.getMonth(),
+      date.getFullYear(),
       expense.amount - oldExpense.amount
     );
     if (!expense) {
@@ -77,6 +91,13 @@ exports.deleteExpense = async (id) => {
       };
     }
     await addTotalAmountInCategoryById(expense.categoryId, -expense.amount);
+    const date = new Date(expense.date);
+    await addMonthExpenses(
+      user.id,
+      date.getMonth(),
+      date.getFullYear(),
+      -expense.amount
+    );
     return expense;
   } catch (error) {
     throw error;
@@ -114,14 +135,6 @@ exports.showAllExpenses = async (filters, user) => {
     };
   }
   try {
-    const budget = await Budget.findByIdAndUpdate(
-      "624aaf2bee9647dd0d9b801e",
-      {
-        // $push: { monthlyBudget: { $each: [20000], $position: 3 } },
-        // $inc: { "monthlyExpenses.2": -20000 },
-      },
-      { new: true }
-    );
     const expenses = await Expense.find(
       {
         amount: {
@@ -143,9 +156,19 @@ exports.showAllExpenses = async (filters, user) => {
   }
 };
 
-exports.deleteExpenseByCategory = async (categoryId) => {
+exports.deleteExpenseByCategory = async (categoryId, user) => {
   try {
-    const expenses = await Expense.deleteMany({ categoryId }).exec();
+    const expenses = await Expense.find({ categoryId: categoryId }).exec();
+    await Expense.deleteMany({ categoryId }).exec();
+    expenses.map(async (expense) => {
+      const date = new Date(expense.date);
+      await addMonthExpenses(
+        user.id,
+        date.getMonth(),
+        date.getFullYear(),
+        -expense.amount
+      );
+    });
     return expenses;
   } catch (error) {
     throw error;

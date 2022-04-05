@@ -45,12 +45,11 @@ exports.showCategories = async (filters, user) => {
 
 exports.deleteCategory = async (user, id, includeExpenses) => {
   try {
-    const category = await Category.findOneAndDelete({
-      id,
+    const category = await Category.findByIdAndDelete(id, {
       userId: user.id,
     }).exec();
     if (includeExpenses) {
-      await deleteExpenseByCategory(id);
+      await deleteExpenseByCategory(id, user);
     }
     return category;
   } catch (error) {
