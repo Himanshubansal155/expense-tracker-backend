@@ -21,7 +21,7 @@ exports.addMonthExpenses = async (userId, month, year, amount) => {
     const budget = await Budget.findOneAndUpdate(
       { userId, year },
       {
-        $inc: { [`monthlyExpenses.${month}`]: amount },
+        $inc: { [`monthlyExpenses.${month}`]: amount, yearBudget: amount },
       },
       { new: true }
     );

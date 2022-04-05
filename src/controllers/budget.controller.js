@@ -5,6 +5,7 @@ const {
 } = require("../services/budget.service");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 const { budgetMonthValidator } = require("../validators/budget.validator");
+const { budgetTransformer } = require("./../transformers/budget.transformer");
 
 exports.addMonthBudget = async (req, res) => {
   try {
@@ -19,7 +20,7 @@ exports.addMonthBudget = async (req, res) => {
   }
   try {
     const budgetMonth = await addMonthBudget(req.user?.id, req.body);
-    res.status(201).send(budgetMonth);
+    res.status(201).send(await new budgetTransformer().transform(budgetMonth));
   } catch (error) {
     res.status(422).send(error);
   }
@@ -31,10 +32,10 @@ exports.showBudget = async (req, res) => {
     const getBudget = await getBudgetByYear(req.user.id, year);
     if (getBudget.length === 0) {
       const budget = await createBudgetTable(req.user.id, year);
-      res.status(201).send(budget);
+      res.status(201).send(await new budgetTransformer().transform(budget));
       return;
     }
-    res.send(getBudget);
+    res.send(await new budgetTransformer().transform(getBudget));
   } catch (error) {
     res.status(422).send(error);
   }

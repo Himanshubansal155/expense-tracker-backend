@@ -14,6 +14,7 @@ const budgetSchema = new mongoose.Schema(
     },
     yearBudget: {
       type: Number,
+      default: 0,
     },
     monthlyBudget: {
       type: [Number],

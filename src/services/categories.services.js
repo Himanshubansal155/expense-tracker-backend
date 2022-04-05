@@ -124,8 +124,6 @@ exports.deleteSubCategory = async (id) => {
     const category = await SubCategory.findByIdAndDelete(id).exec();
     await removeSubCategory(id);
     return category;
-
-    return {};
   } catch (error) {
     throw error;
   }
