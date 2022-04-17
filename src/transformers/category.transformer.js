@@ -1,6 +1,13 @@
+const { showSubCategories } = require("../services/categories.services");
 const TransformerAbstract = require("./base.transformer");
 
 class categoryTransformer extends TransformerAbstract {
+  defaultIncludes = ["subCategory"];
+
+  async includeSubCategory(category) {
+    return await showSubCategories({}, category.id);
+  }
+
   _map(category) {
     return {
       id: category.id,
