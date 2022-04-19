@@ -18,13 +18,16 @@ exports.expenseCreateSchema = {
     amount: {
       type: "number",
     },
+    time: {
+      type: "string",
+    },
     date: {
       type: "string",
     },
     meta: {
       type: "object",
       additionalProperties: false,
-      required: ["file_id", "file_type", "file_url", "type"],
+      required: ["id", "file_type", "url", "type"],
       properties: {
         id: {
           type: "string",
@@ -32,7 +35,7 @@ exports.expenseCreateSchema = {
         file_type: {
           type: "string",
         },
-        file_url: {
+        url: {
           type: "string",
         },
         type: {
