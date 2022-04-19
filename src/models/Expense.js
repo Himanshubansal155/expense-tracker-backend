@@ -34,10 +34,8 @@ const expenseSchema = new mongoose.Schema(
       required: true,
     },
     meta: {
-      file_id: String,
-      file_url: String,
-      file_type: String,
-      type: String,
+      type: Map,
+      of: String,
     },
   },
   { timestamps: true }
