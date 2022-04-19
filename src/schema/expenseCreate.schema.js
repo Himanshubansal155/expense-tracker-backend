@@ -26,7 +26,7 @@ exports.expenseCreateSchema = {
       additionalProperties: false,
       required: ["file_id", "file_type", "file_url", "type"],
       properties: {
-        file_id: {
+        id: {
           type: "string",
         },
         file_type: {
