@@ -35,7 +35,7 @@ exports.createExpense = async (data, user) => {
   }
 };
 
-exports.updateExpense = async (data, id) => {
+exports.updateExpense = async (data, id, user) => {
   try {
     const oldExpense = await Expense.findById(id).exec();
     const expense = await Expense.findByIdAndUpdate(id, data, {
@@ -80,7 +80,7 @@ exports.showExpense = async (id) => {
   }
 };
 
-exports.deleteExpense = async (id) => {
+exports.deleteExpense = async (id, user) => {
   try {
     const expense = await Expense.findByIdAndDelete(id).exec();
 

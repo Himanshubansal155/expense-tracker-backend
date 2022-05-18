@@ -52,7 +52,7 @@ exports.updateExpense = async (req, res) => {
   }
   try {
     const id = req.params?.id;
-    const expense = await updateExpense(req.body, id);
+    const expense = await updateExpense(req.body, id, req.user);
     res.status(202).send(await new expenseTransformer().transform(expense));
   } catch (error) {
     res.statusCode = 404;
@@ -63,7 +63,7 @@ exports.updateExpense = async (req, res) => {
 exports.deleteExpense = async (req, res) => {
   try {
     const id = req.params?.id;
-    const expense = await deleteExpense(id);
+    const expense = await deleteExpense(id, req.user);
     res.send(await new expenseTransformer().transform(expense));
   } catch (error) {
     res.status(422).send(error);
@@ -75,7 +75,10 @@ exports.showAllExpense = async (req, res) => {
     const filters = req.query;
     const expenses = await showAllExpenses(filters, req.user);
     res.send(
-      await new expenseTransformer().transformList(expenses, ["subCategory", "category"])
+      await new expenseTransformer().transformList(expenses, [
+        "subCategory",
+        "category",
+      ])
     );
   } catch (error) {
     res.status(422).send(error);
