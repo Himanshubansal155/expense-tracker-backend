@@ -4,6 +4,7 @@ const {
   showByEmail,
   showByMobile,
   deleteUser,
+  updateUserData,
 } = require("../services/user.service");
 const userTransformer = require("../transformers/user.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
@@ -108,7 +109,7 @@ exports.updateUser = async (req, res) => {
   }
   try {
     const id = req.user?.id;
-    const user = await this.updateUser(req.body, id);
+    const user = await updateUserData(req.body, id);
     res.status(202).send(await new userTransformer().transform(user));
   } catch (error) {
     res.statusCode = 404;

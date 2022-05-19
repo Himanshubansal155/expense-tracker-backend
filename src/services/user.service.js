@@ -54,7 +54,7 @@ exports.showById = async (id) => {
   }
 };
 
-exports.updateUser = async (data, id) => {
+exports.updateUserData = async (data, id) => {
   let values = {};
   try {
     if (data.password) {
