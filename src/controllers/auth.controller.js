@@ -128,7 +128,7 @@ exports.deleteUser = async (req, res) => {
 };
 exports.verifyPassword = async (req, res) => {
   if (req.body.password) {
-    const checkef = await bcrypt.compare(req.bosy.password, req.user.password);
+    const checkef = await bcrypt.compare(req.body.password, req.user.password);
     if (checkef) {
       res.send(await new userTransformer().transform(req.user));
     } else {

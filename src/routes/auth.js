@@ -18,6 +18,6 @@ app.post("/login-mobile", authenticateMobile);
 app.get("/me", [userMiddleware], me);
 app.put("/me", [userMiddleware], updateUser);
 app.delete("/me", [userMiddleware], deleteUser);
-app.get("/verify-password", [userMiddleware], verifyPassword);
+app.post("/verify-password", [userMiddleware], verifyPassword);
 
 module.exports = app;
