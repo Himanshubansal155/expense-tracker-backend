@@ -11,6 +11,7 @@ const {
   userLoginValidator,
   userLoginMobileValidator,
 } = require("../validators/user.validator");
+const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
   try {
@@ -29,7 +30,9 @@ exports.createUser = async (req, res) => {
       },
       process.env.SECRET_TOKEN
     );
-    res.status(201).json({ user: await new userTransformer().transform(user), token });
+    res
+      .status(201)
+      .json({ user: await new userTransformer().transform(user), token });
   } catch (error) {
     res.statusCode = 404;
     res.send(error);
@@ -87,5 +90,37 @@ exports.authenticateMobile = async (req, res) => {
 exports.me = async (req, res) => {
   if (req.user) {
     res.send(await new userTransformer().transform(req.user));
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  if (req.user) {
+    res.send(await new userTransformer().transform(req.user));
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  if (req.user) {
+    res.send(await new userTransformer().transform(req.user));
+  }
+};
+exports.verifyPassword = async (req, res) => {
+  if (req.body.password) {
+    const checkef = await bcrypt.compare(req.bosy.password, req.user.password);
+    if (checkef) {
+      res.send(await new userTransformer().transform(req.user));
+    } else {
+      res.statusCode = 404;
+      res.send({
+        message: "Password Not Correct",
+        code: ErrorCodes.userPasswordIncorrect,
+      });
+    }
+  } else {
+    res.statusCode = 404;
+    res.send({
+      message: "Password Not Found",
+      code: ErrorCodes.userPasswordIncorrect,
+    });
   }
 };

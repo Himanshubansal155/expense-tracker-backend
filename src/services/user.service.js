@@ -53,3 +53,23 @@ exports.showById = async (id) => {
     throw { error, code: ErrorCodes.userNotFound };
   }
 };
+
+exports.updateUser = async (data, id) => {
+  const { name, email, phone, password } = data;
+  try {
+    const user = await user
+      .findByIdAndUpdate(id, data, {
+        new: true,
+      })
+      .exec();
+    if (!user) {
+      throw {
+        message: "User Not Found",
+        code: ErrorCodes.userNotFound,
+      };
+    }
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
