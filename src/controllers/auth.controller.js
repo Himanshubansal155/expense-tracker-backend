@@ -3,6 +3,7 @@ const {
   createUser,
   showByEmail,
   showByMobile,
+  deleteUser,
 } = require("../services/user.service");
 const userTransformer = require("../transformers/user.transformer");
 const { ErrorCodes } = require("../utils/ErrorCodes");
@@ -10,6 +11,7 @@ const {
   userCreateValidator,
   userLoginValidator,
   userLoginMobileValidator,
+  userUpdateValidator,
 } = require("../validators/user.validator");
 const bcrypt = require("bcrypt");
 
@@ -94,14 +96,33 @@ exports.me = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  if (req.user) {
-    res.send(await new userTransformer().transform(req.user));
+  try {
+    userUpdateValidator(req.body);
+  } catch (error) {
+    res.statusCode = 422;
+    res.send({
+      message: error.message,
+      code: ErrorCodes.userCreateValidation,
+    });
+    return;
+  }
+  try {
+    const id = req.user?.id;
+    const user = await this.updateUser(req.body, id);
+    res.status(202).send(await new userTransformer().transform(user));
+  } catch (error) {
+    res.statusCode = 404;
+    res.send(error);
   }
 };
 
 exports.deleteUser = async (req, res) => {
-  if (req.user) {
-    res.send(await new userTransformer().transform(req.user));
+  try {
+    const id = req.user?.id;
+    const user = await deleteUser(id);
+    res.send(await new userTransformer().transform(user));
+  } catch (error) {
+    res.status(422).send(error);
   }
 };
 exports.verifyPassword = async (req, res) => {

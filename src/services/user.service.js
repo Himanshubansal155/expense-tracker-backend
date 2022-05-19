@@ -55,13 +55,34 @@ exports.showById = async (id) => {
 };
 
 exports.updateUser = async (data, id) => {
-  const { name, email, phone, password } = data;
+  let values = {};
   try {
+    if (data.password) {
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      values = { password: hashedPassword };
+    } else {
+      values = data;
+    }
     const user = await user
-      .findByIdAndUpdate(id, data, {
+      .findByIdAndUpdate(id, values, {
         new: true,
       })
       .exec();
+    if (!user) {
+      throw {
+        message: "User Not Valid",
+        code: ErrorCodes.userNotValid,
+      };
+    }
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.deleteUser = async (id) => {
+  try {
+    const user = await user.findByIdAndDelete(id).exec();
     if (!user) {
       throw {
         message: "User Not Found",
