@@ -63,18 +63,18 @@ exports.updateUserData = async (data, id) => {
     } else {
       values = data;
     }
-    const user = await user
+    const userData = await user
       .findByIdAndUpdate(id, values, {
         new: true,
       })
       .exec();
-    if (!user) {
+    if (!userData) {
       throw {
         message: "User Not Valid",
         code: ErrorCodes.userNotValid,
       };
     }
-    return user;
+    return userData;
   } catch (error) {
     throw error;
   }
@@ -82,14 +82,14 @@ exports.updateUserData = async (data, id) => {
 
 exports.deleteUser = async (id) => {
   try {
-    const user = await user.findByIdAndDelete(id).exec();
-    if (!user) {
+    const userData = await userData.findByIdAndDelete(id).exec();
+    if (!userData) {
       throw {
         message: "User Not Found",
         code: ErrorCodes.userNotFound,
       };
     }
-    return user;
+    return userData;
   } catch (error) {
     throw error;
   }
