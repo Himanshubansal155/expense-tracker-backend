@@ -31,6 +31,7 @@ class expenseTransformer extends TransformerAbstract {
       amount: expense.amount,
       description: expense.description,
       date: expense.date,
+      meta: expense.meta,
       createdAt: expense.createdAt,
       updatedAt: expense.updatedAt,
     };
