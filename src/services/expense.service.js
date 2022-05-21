@@ -130,8 +130,8 @@ exports.showAllExpenses = async (filters, user) => {
     whereClause = {
       ...whereClause,
       date: {
-        $gte: moment(filters.startDate),
-        $lt: moment(filters.endDate),
+        $gte: moment(filters.startDate).format('YYYY-MM-DD'),
+        $lt: moment(filters.endDate).format('YYYY-MM-DD'),
       },
     };
   }
