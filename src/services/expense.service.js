@@ -1,3 +1,4 @@
+const moment = require("moment");
 const Budget = require("../models/Budget");
 const Category = require("../models/Category");
 const Expense = require("../models/Expense");
@@ -129,8 +130,8 @@ exports.showAllExpenses = async (filters, user) => {
     whereClause = {
       ...whereClause,
       date: {
-        $gte: filters.startDate,
-        $lt: filters.endDate,
+        $gte: moment(filters.startDate),
+        $lt: moment(filters.endDate),
       },
     };
   }
