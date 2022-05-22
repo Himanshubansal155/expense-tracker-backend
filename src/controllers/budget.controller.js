@@ -35,7 +35,7 @@ exports.showBudget = async (req, res) => {
       res.status(201).send(await new budgetTransformer().transform(budget));
       return;
     }
-    res.send(await new budgetTransformer().transformList(getBudget));
+    res.send(await new budgetTransformer().transform(getBudget[0]));
   } catch (error) {
     res.status(422).send(error);
   }
