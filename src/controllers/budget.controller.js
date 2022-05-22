@@ -5,7 +5,7 @@ const {
 } = require("../services/budget.service");
 const { ErrorCodes } = require("../utils/ErrorCodes");
 const { budgetMonthValidator } = require("../validators/budget.validator");
-const { budgetTransformer } = require("./../transformers/budget.transformer");
+const budgetTransformer = require("./../transformers/budget.transformer");
 
 exports.addMonthBudget = async (req, res) => {
   try {
@@ -35,7 +35,7 @@ exports.showBudget = async (req, res) => {
       res.status(201).send(await new budgetTransformer().transform(budget));
       return;
     }
-    res.send(await new budgetTransformer().transform(getBudget));
+    res.send(await new budgetTransformer().transformList(getBudget));
   } catch (error) {
     res.status(422).send(error);
   }
